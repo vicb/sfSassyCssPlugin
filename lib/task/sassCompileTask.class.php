@@ -29,10 +29,11 @@ class sassCompileTask extends sfBaseTask
     $this->addOptions(array(
       new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', null),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
-      new sfCommandOption('clean', null, sfCommandOption::PARAMETER_NONE, 'Removing all CSS compiled from sass files'),
+      new sfCommandOption('no-clean', null, sfCommandOption::PARAMETER_NONE, 'Do not remove generated CSS before compilation'),
       new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Generate debug info'),
       new sfCommandOption('style', null, sfCommandOption::PARAMETER_OPTIONAL, '[nested|compact|compressed|expanded]', 'compressed'),
       new sfCommandOption('format', null, sfCommandOption::PARAMETER_OPTIONAL, '[scss|sass]', 'scss'),
+      new sfCommandOption('include', null, sfCommandOption::PARAMETER_OPTIONAL, 'Include path (use ":" as a separator)'),
     ));
 
     $this->namespace            = 'sass';
@@ -56,7 +57,7 @@ EOF;
     $params = array();
 
     // Clean
-    if ($options['clean'])
+    if (!$options['no-clean'])
     {
       $this->logSection('Clean', 'remove previously generated css files');
       $compiler->clean($arguments['in'], $arguments['out']);
@@ -75,6 +76,14 @@ EOF;
       $params[] = '--debug-info';
       $params[] = '--line-numbers';
       $params[] = '--line-comments';
+    }
+
+    if (!empty($options['include']))
+    {
+      foreach(split(':', $options['include']) as $path)
+      {
+        $params[] = sprintf('--load-path "%s"', $path);
+      }
     }
 
     $compiler->compile($arguments['in'], $arguments['out'], $params);
