@@ -27,6 +27,10 @@ If your project already uses `git`, you can add the plugin as a submodule:
     $ git submodule update --init
     $ git commit -a -m "added sfSassyCssPlugin submodule"
 
+Do not forget to publish the plugin assets:
+
+    $ symfony plugin:publish-assets
+
 ## Enabling the plugin ##
 
 Edit your `config/ProjectConfiguration.class.php` file to enable the plugin:
@@ -89,6 +93,10 @@ You should run the `sass:compile` task instead in order to re-generate your css 
 
   * sfSassyCssPlugin has been created by [Victor Berchet](http://github.com/vicb)
   * The inspiration and some parts of the code comes from [sfLESSPlugin](http://github.com/everzet/sfLESSPlugin) by [Kudryashov Konstantin](http://everzet.com)
+
+## Tips ##
+
+You can use `sass-convert` to help you convert less stylesheets to sass.
 
 ##Changelog ##
 
