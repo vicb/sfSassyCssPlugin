@@ -15,6 +15,8 @@ sfSassyCssPlugin brings the power of [sass stylesheets](http://sass-lang.com) to
 
 Follow [the instructions](http://sass-lang.com/tutorial.html).
 
+For linux users, you might have to symlink the sass compiler to a place inside your PATH.
+
 ### Installing sfSassyCssPlugin using git ###
 
     $ cd /path/to/symfony/project
