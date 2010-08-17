@@ -80,6 +80,9 @@ The default configuration can be found in the `app.yml` configuration file insid
 
 ## Usage ##
 
+Using the default configuration the plugin will compile the sass stylesheets in the `data/sass` folder into css stylesheets in the `web/css` folder.
+The input and output folders can be customized in the project/application `app.yml`.
+
 ### In development ###
 
 Using the default configuration the sass stylesheets are generated on each request.
