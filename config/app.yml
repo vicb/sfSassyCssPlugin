@@ -1,0 +1,21 @@
+all:
+  sfSassyCssPlugin:
+    enabled:          false               # Wether to trigger sass compilation
+    input_dir:        %SF_DATA_DIR%/sass  # Sass source folder
+    output_dir:       %SF_WEB_DIR%/css    # Target folder where to generate the files
+    format:           scss                # Input format: scss, sass
+    include_dirs:     []                  # Array of sass import path.
+    cache:            true                # Wether to use the cache
+    cache_dir:        %SF_CACHE_DIR%/sass # The path to put cached Sass files
+    trace:            false               # Show a full traceback on error
+    style:            compact             # Output style: nested, compact, compressed, or expanded.
+    debug_info:       false               # Emit extra information in the generated CSS that can be used by the FireSass Firebug plugin.
+    line_numbers:     false               # Emit comments in the generated CSS indicating the corresponding sass line.
+    line_comments:    false
+    toolbar:          false               # Wether to display the debug toolbar
+
+dev:
+  sfSassyCssPlugin:
+    enabled:          true                # Wether to trigger sass compilation
+    style:            expanded            # Output style: nested, compact, compressed, or expanded.
+    toolbar:          true                # Wether to display the debug toolbar
