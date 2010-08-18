@@ -73,6 +73,9 @@ class sfSassCompilerDefault extends sfSassCompilerBase
     // output style
     $params[] = sprintf('--style %s', sfConfig::get('app_sfSassyCssPlugin_style'));
 
+    // encoding
+    $params[] = sprintf('-E "%s"', sfConfig::get('app_sfSassyCssPlugin_encoding'));
+
     // debug
     if (sfConfig::get('app_sfSassyCssPlugin_trace'))
     {

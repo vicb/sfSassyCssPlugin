@@ -34,6 +34,7 @@ class sassCompileTask extends sfBaseTask
       new sfCommandOption('style', null, sfCommandOption::PARAMETER_OPTIONAL, '[nested|compact|compressed|expanded]', 'compressed'),
       new sfCommandOption('format', null, sfCommandOption::PARAMETER_OPTIONAL, '[scss|sass]', 'scss'),
       new sfCommandOption('include', null, sfCommandOption::PARAMETER_OPTIONAL, 'Include path (use ":" as a separator)'),
+      new sfCommandOption('encoding', null, sfCommandOption::PARAMETER_OPTIONAL, 'Sass files encoding', 'UTF-8'),
     ));
 
     $this->namespace            = 'sass';
@@ -65,6 +66,7 @@ EOF;
 
     $params[] = '--no-cache';
     $params[] = sprintf('--style %s', $options['style']);
+    $params[] = sprintf('-E "%s"', $options['encoding']);
 
     if ($options['format'] == 'scss')
     {

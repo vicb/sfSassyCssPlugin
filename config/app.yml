@@ -13,6 +13,7 @@ all:
     line_numbers:     false               # Emit comments in the generated CSS indicating the corresponding sass line.
     line_comments:    false
     toolbar:          false               # Wether to display the debug toolbar
+    encoding:         UTF-8               # Sass files default encoding
 
 dev:
   sfSassyCssPlugin:
