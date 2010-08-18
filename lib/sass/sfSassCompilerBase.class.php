@@ -34,14 +34,14 @@ abstract class sfSassCompilerBase
    *
    * @param string|array  $in      Source folder|Array of files (source => target)
    * @param string        $out     Output directory where to write the css files
-   * @param boolean       $cache   Wether to use sass built-in cache
+   * @param string|null   $cache   Cache folder
    * @param array         $params  Sass compiler parameters
    */
   public function compile($in, $out, $cache, array $params = array())
   {
     $timer = sfTimerManager::getTimer('Sass compilation');
     $this->createFolderIfNeeded($out);
-    if (!empty($cache))
+    if (!is_null($cache))
     {
       $this->createFolderIfNeeded($cache);
     }
@@ -49,7 +49,7 @@ abstract class sfSassCompilerBase
     $this->driver->compile($in, $out, $params);
 
     $this->fixPermissions($out);
-    if (!empty($cache))
+    if (!is_null($cache))
     {
       $this->fixPermissions($cache);
     }

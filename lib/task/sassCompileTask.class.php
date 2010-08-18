@@ -86,7 +86,7 @@ EOF;
       $params[] = sprintf('--load-path "%s"', $path);
     }
  
-    $compiler->compile($in, $out, false, $params);
+    $compiler->compile($in, $out, null, $params);
 
     $this->logSection('Command', $compiler->getCommand());
 
