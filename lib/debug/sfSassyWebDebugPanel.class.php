@@ -87,7 +87,7 @@ STDOUT;
 STDERR;
     }
 
-    require sfConfig::get('sf_symfony_lib_dir') . '/helper/TextHelper.php';
+    require_once sfConfig::get('sf_symfony_lib_dir') . '/helper/TextHelper.php';
 
     $content = strtr($content, array(
       '{command}' => htmlentities($cmd),
