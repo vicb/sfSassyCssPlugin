@@ -94,14 +94,13 @@ abstract class sfSassCompilerBase
    */
   public function clean($in, $out)
   {
-    $files = sfFinder::type('file')->discard('_*')->in($in);
+    $files = sfFinder::type('file')->discard('_*')->relative()->in($in);
 
     $fs = new sfSassyFilesystem($this->dispatcher);
 
-    $inPattern = sprintf('/^%s/', preg_quote(str_replace('\\', '/', $in), '/')) ;    
     foreach ($files as $file)
     {
-      $target = preg_replace($inPattern, $out, $file);
+      $target = rtrim($out, '/\\') . '/' . $file;
       $target = preg_replace('/\.s[ac]ss$/i', '.css', $target);
       if (is_file($target) && is_writable($target))
       {
