@@ -41,7 +41,8 @@ class sfSassyCssPluginConfiguration extends sfPluginConfiguration
 
     $compiler->compile(
       sfConfig::get('app_sfSassyCssPlugin_input_dir'),
-      $out = sfConfig::get('app_sfSassyCssPlugin_output_dir')
+      sfConfig::get('app_sfSassyCssPlugin_output_dir'),
+      sfConfig::get('app_sfSassyCssPlugin_cache_dir')
     );
   }
 

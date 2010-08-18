@@ -38,11 +38,12 @@ class sfSassCompilerDefault extends sfSassCompilerBase
    *
    * @param string $in      Input directory containing sass files
    * @param string $out     Output directory where to write the css files
+   * @param string $cache   Cache folder (null if cache is not used)
    * @param array  $params  Sass compiler parameters
    */
-  public function compile($in, $out, array $params = array())
+  public function compile($in, $out, $cache, array $params = array())
   {
-    parent::compile($in, $out, array_merge($this->getParameters(), $params));
+    parent::compile($in, $out, $cache, array_merge($this->getParameters(), $params));
   }
 
   /**

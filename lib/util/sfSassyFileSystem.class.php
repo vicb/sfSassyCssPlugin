@@ -78,7 +78,7 @@ class sfSassyFileSystem extends sfFilesystem
         }
       }
 
-      usleep(100000);
+      usleep(20000);
     }
 
     fclose($pipes[1]);

@@ -34,23 +34,24 @@ abstract class sfSassCompilerBase
    *
    * @param string $in      Input directory containing sass files
    * @param string $out     Output directory where to write the css files
+   * @param string $cache   Cache folder (null if cache is not used)
    * @param array  $params  Sass compiler parameters
    */
-  public function compile($in, $out, array $params = array())
+  public function compile($in, $out, $cache, array $params = array())
   {
     $timer = sfTimerManager::getTimer('Sass compilation');
     $this->createFolderIfNeeded($out);
-    if (sfConfig::get('app_sfSassyCssPlugin_cache'))
+    if (!empty($cache))
     {
-      $this->createFolderIfNeeded(sfConfig::get('app_sfSassyCssPlugin_cache_dir'));
+      $this->createFolderIfNeeded($cache);
     }
 
     $this->driver->compile($in, $out, $params);
 
     $this->fixPermissions($out);
-    if (sfConfig::get('app_sfSassyCssPlugin_cache'))
+    if (!empty($cache))
     {
-      $this->fixPermissions(sfConfig::get('app_sfSassyCssPlugin_cache_dir'));
+      $this->fixPermissions($cache);
     }
     $timer->addTime();
   }
