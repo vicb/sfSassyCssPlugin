@@ -1,6 +1,7 @@
 all:
   sfSassyCssPlugin:
     enabled:          false               # Wether to trigger sass compilation
+    compile_all:      false               # Wether to compile all stylesheets or only required ones (check the doc!)
     input_dir:        %SF_DATA_DIR%/sass  # Sass source folder
     output_dir:       %SF_WEB_DIR%/css    # Target folder where to generate the files
     format:           scss                # Input format: scss, sass

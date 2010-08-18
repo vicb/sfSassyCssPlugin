@@ -32,25 +32,26 @@ abstract class sfSassCompilerBase
   /**
    * Compile the source files and fix permissions
    *
-   * @param string $in      Input directory containing sass files
-   * @param string $out     Output directory where to write the css files
-   * @param array  $params  Sass compiler parameters
+   * @param string|array  $in      Source folder|Array of files (source => target)
+   * @param string        $out     Output directory where to write the css files
+   * @param boolean       $cache   Wether to use sass built-in cache
+   * @param array         $params  Sass compiler parameters
    */
-  public function compile($in, $out, array $params = array())
+  public function compile($in, $out, $cache, array $params = array())
   {
     $timer = sfTimerManager::getTimer('Sass compilation');
     $this->createFolderIfNeeded($out);
-    if (sfConfig::get('app_sfSassyCssPlugin_cache'))
+    if (!empty($cache))
     {
-      $this->createFolderIfNeeded(sfConfig::get('app_sfSassyCssPlugin_cache_dir'));
+      $this->createFolderIfNeeded($cache);
     }
 
     $this->driver->compile($in, $out, $params);
 
     $this->fixPermissions($out);
-    if (sfConfig::get('app_sfSassyCssPlugin_cache'))
+    if (!empty($cache))
     {
-      $this->fixPermissions(sfConfig::get('app_sfSassyCssPlugin_cache_dir'));
+      $this->fixPermissions($cache);
     }
     $timer->addTime();
   }
@@ -92,7 +93,7 @@ abstract class sfSassCompilerBase
    * @param string $in   Absolute path to the source files
    * @param string $out  Absolute path to the target files
    */
-  public function clean($in, $out)
+  public function cleanFolder($in, $out)
   {
     $files = sfFinder::type('file')->discard('_*')->relative()->in($in);
 

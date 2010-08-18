@@ -58,7 +58,7 @@ EOF;
     if (!$options['no-clean'])
     {
       $this->logSection('Clean', 'remove previously generated css files');
-      $compiler->clean($in, $out);
+      $compiler->cleanFolder($in, $out);
     }
 
     $params[] = '--no-cache';    
@@ -86,7 +86,7 @@ EOF;
       $params[] = sprintf('--load-path "%s"', $path);
     }
  
-    $compiler->compile($in, $out, $params);
+    $compiler->compile($in, $out, false, $params);
 
     $this->logSection('Command', $compiler->getCommand());
 
