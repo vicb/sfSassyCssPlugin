@@ -21,27 +21,21 @@ class sassCompileTask extends sfBaseTask
    */
   protected function configure()
   {
-    $this->addArguments(array(
-      new sfCommandArgument('in', sfCommandArgument::OPTIONAL, 'input folder', sfConfig::get('sf_data_dir') . '/sass'),
-      new sfCommandArgument('out', sfCommandArgument::OPTIONAL, 'output folder', sfConfig::get('sf_web_dir') . '/css')
-    ));
-
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', null),
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_OPTIONAL, 'The application name', $this->getFirstApplication()),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'prod'),
       new sfCommandOption('no-clean', null, sfCommandOption::PARAMETER_NONE, 'Do not remove generated CSS before compilation'),
       new sfCommandOption('debug', null, sfCommandOption::PARAMETER_NONE, 'Generate debug info'),
       new sfCommandOption('style', null, sfCommandOption::PARAMETER_OPTIONAL, '[nested|compact|compressed|expanded]', 'compressed'),
-      new sfCommandOption('format', null, sfCommandOption::PARAMETER_OPTIONAL, '[scss|sass]', 'scss'),
-      new sfCommandOption('include', null, sfCommandOption::PARAMETER_OPTIONAL, 'Include path (use ":" as a separator)'),
-      new sfCommandOption('encoding', null, sfCommandOption::PARAMETER_OPTIONAL, 'Sass files encoding', 'UTF-8'),
     ));
 
     $this->namespace            = 'sass';
     $this->name                 = 'compile';
-    $this->briefDescription     = 'Compiles Sass files';
+    $this->briefDescription     = 'Sass files compilation';
     $this->detailedDescription  = <<<EOF
-The [sass:compile|INFO] task compiles the sass files
+The [sass:compile|INFO] task compiles the sass files.
+The input folder, output folder, format, file encoding and include paths are retrieved from the application configuration.
+
 Call it with:
 
   [php symfony sass:compile|INFO]
@@ -55,18 +49,20 @@ EOF;
   {
     $compiler = sfSassCompilerArgs::getInstance($this->dispatcher);
 
+    $in = sfConfig::get('app_sfSassyCssPlugin_input_dir', sfConfig::get('sf_data_dir') . '/sass');
+    $out = sfConfig::get('app_sfSassyCssPlugin_output_dir', sfConfig::get('sf_web_dir') . '/css');
+
     $params = array();
 
     // Clean
     if (!$options['no-clean'])
     {
       $this->logSection('Clean', 'remove previously generated css files');
-      $compiler->clean($arguments['in'], $arguments['out']);
+      $compiler->clean($in, $out);
     }
 
-    $params[] = '--no-cache';
-    $params[] = sprintf('--style %s', $options['style']);
-    $params[] = sprintf('-E "%s"', $options['encoding']);
+    $params[] = '--no-cache';    
+    $params[] = sprintf('-E "%s"', sfConfig::get('app_sfSassyCssPlugin_encoding', "UTF-8"));
 
     if ($options['format'] == 'scss')
     {
@@ -78,17 +74,19 @@ EOF;
       $params[] = '--debug-info';
       $params[] = '--line-numbers';
       $params[] = '--line-comments';
+      $params[] = '--style expanded';
     }
-
-    if (!empty($options['include']))
+    else
     {
-      foreach(split(':', $options['include']) as $path)
-      {
-        $params[] = sprintf('--load-path "%s"', $path);
-      }
+      $params[] = sprintf('--style %s', $options['style']);
     }
 
-    $compiler->compile($arguments['in'], $arguments['out'], $params);
+    foreach(sfConfig::get('app_sfSassyCssPlugin_include_dirs') as $path)
+    {
+      $params[] = sprintf('--load-path "%s"', $path);
+    }
+ 
+    $compiler->compile($in, $out, $params);
 
     $this->logSection('Command', $compiler->getCommand());
 
