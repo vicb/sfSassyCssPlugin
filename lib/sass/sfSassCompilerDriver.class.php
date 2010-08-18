@@ -41,21 +41,15 @@ class sfSassCompilerDriver
    */
   public function compile($in, $out, array $params)
   {
-    $this->command = sprintf(
-      'sass --update "%s":"%s" %s',
-      $in,
-      $out,
-      join(' ', $params)
-    );
+    $this->command = sprintf('sass --update "%s":"%s" %s 2>&1', $in, $out, join(' ', $params));
 
-    $this->stdout = "";
-    $this->stderr = "";
+    $this->stdout = $this->stderr = "";
 
-    $fs = new sfSassyFilesystem();
+    exec($this->command, $this->stdout, $this->status);
 
-    list($this->stdout, $this->stderr, $statut) = $fs->execute($this->command);
+    $this->stdout = join("\n", $this->stdout);
 
-    return $statut;
+    return $this->status;
   }
 
   /**
@@ -67,12 +61,13 @@ class sfSassCompilerDriver
   }
 
   /**
-   * @return string STDERR content
+   * @return integer status
    */
-  public function getStdErr()
+  public function getStatus()
   {
-    return $this->stderr;
+    return $this->status;
   }
+
 
   /**
    * @return string Command

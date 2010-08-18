@@ -54,37 +54,25 @@ class sfSassyWebDebugPanel extends sfWebDebugPanel
   {
     $this->compiler = sfSassCompilerDefault::getInstance(sfContext::getInstance()->getEventDispatcher());
 
-    $stderr = $this->compiler->getStdErr();
+    $status = $this->compiler->getStatus();
     $stdout = $this->compiler->getStdOut();
     $cmd = $this->compiler->getCommand();
     
     $content = <<<DEBUG
     <h2>Command</h2>
-    <p style="display: block; border: 1px solid black; padding: 5px; background-color: white;">
-    {command}
-    </p>
-
-    <br/>
+    <p style="display: block; border: 1px solid black; padding: 5px; background-color: white;">{command}</p>
+    <h2>Status</h2>
+    <p style="display: block; border: 1px solid black; padding: 5px; background-color: white;">{status}</p>
 DEBUG;
 
     if (!empty($stdout))
     {
       $content .= <<<STDOUT
-    <h2>Standard output</h2>
+    <h2>Output</h2>
     <div style="display: block; border: 1px solid black; padding: 5px; background-color: white;">
     {stdout}
     </div>
 STDOUT;
-    }
-
-    if (!empty($stderr))
-    {
-      $content .= <<<STDERR
-    <h2>Error output</h2>
-    <div style="display: block; border: 1px solid black; padding: 5px; color: red; background-color: white;">
-    {stderr}
-    </div>
-STDERR;
     }
 
     require_once sfConfig::get('sf_symfony_lib_dir') . '/helper/TextHelper.php';
@@ -92,12 +80,12 @@ STDERR;
     $content = strtr($content, array(
       '{command}' => htmlentities($cmd),
       '{stdout}'  => simple_format_text(htmlentities($stdout)),
-      '{stderr}'  => simple_format_text(htmlentities($stderr))
+      '{status}'  => $status
     ));
 
     $this->setStatus(!empty($stderr) || preg_match('/error /mi', $stdout) !== 0?sfLogger::ERR:sfLogger::INFO);
 
-    return $content;
+    return $content . "<br/>";
   }
 
 }

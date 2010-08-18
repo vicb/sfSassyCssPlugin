@@ -97,7 +97,7 @@ abstract class sfSassCompilerBase
   {
     $files = sfFinder::type('file')->discard('_*')->relative()->in($in);
 
-    $fs = new sfSassyFilesystem($this->dispatcher);
+    $fs = new sfFilesystem($this->dispatcher);
 
     foreach ($files as $file)
     {
@@ -121,9 +121,9 @@ abstract class sfSassCompilerBase
  /**
   * @see sfSassCompilerDriver
   */
-  public function getStdErr()
+  public function getStatus()
   {
-    return $this->driver->getStdErr();
+    return $this->driver->getStatus();
   }
 
   /**

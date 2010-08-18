@@ -91,17 +91,14 @@ EOF;
     $this->logSection('Command', $compiler->getCommand());
 
     $stdout = $compiler->getStdOut();
-    $stderr = $compiler->getStdErr();
+    $status = $compiler->getStatus();
 
     if (!empty($stdout))
     {
-      $this->logBlock("\n" . $stdout, preg_match('/error /i', $stdout) !== 0?'ERROR':'INFO');
+      $this->logBlock("\n" . $stdout . "\n", preg_match('/error /i', $stdout) !== 0?'ERROR':'INFO');
     }
 
-    if (!empty($stderr))
-    {
-      $this->logSection("\n" . $stderr, 'ERROR');
-    }
+    $this->logSection('Status', $status);
 
   }
 }
