@@ -83,7 +83,14 @@ STDOUT;
       '{status}'  => $status
     ));
 
-    $this->setStatus(!empty($stderr) || preg_match('/error /mi', $stdout) !== 0?sfLogger::ERR:sfLogger::INFO);
+    if (!empty($stdout))
+    {
+      $this->setStatus(preg_match('/error /mi', $stdout) === 1?sfLogger::ERR:sfLogger::WARNING);
+    }
+    else
+    {
+      $this->setStatus(sfLogger::INFO);
+    }
 
     return $content . "<br/>";
   }
