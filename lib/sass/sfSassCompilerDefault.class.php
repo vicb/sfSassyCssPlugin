@@ -64,7 +64,7 @@ class sfSassCompilerDefault extends sfSassCompilerBase
     // cache
     if (sfConfig::get('app_sfSassyCssPlugin_cache'))
     {
-      $params[] = sprintf('--cache-location "%s"', sfConfig::get('app_sfSassyCssPlugin_cache_dir'));
+      $params[] = sprintf('--cache-location "%s"', sfSassCompilerDriver::fixPath(sfConfig::get('app_sfSassyCssPlugin_cache_dir')));
     }
     else
     {
@@ -98,7 +98,7 @@ class sfSassCompilerDefault extends sfSassCompilerBase
     // include path
     foreach (sfConfig::get('app_sfSassyCssPlugin_include_dirs') as $path)
     {
-      $params[] = sprintf('--load-path "%s"', $path);
+      $params[] = sprintf('--load-path "%s"', sfSassCompilerDriver::fixPath($path));
     }
 
     return $params;

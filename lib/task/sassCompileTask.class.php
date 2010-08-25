@@ -83,7 +83,7 @@ EOF;
 
     foreach(sfConfig::get('app_sfSassyCssPlugin_include_dirs') as $path)
     {
-      $params[] = sprintf('--load-path "%s"', $path);
+      $params[] = sprintf('--load-path "%s"', sfSassCompilerDriver::fixPath($path));
     }
  
     $compiler->compile($in, $out, null, $params);

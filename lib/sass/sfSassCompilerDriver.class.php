@@ -41,7 +41,11 @@ class sfSassCompilerDriver
    */
   public function compile($in, $out, array $params)
   {
-    $this->command = sprintf('sass --update "%s":"%s" %s 2>&1', $in, $out, join(' ', $params));
+    $this->command = sprintf('sass --update "%s":"%s" %s 2>&1', 
+      self::fixPath($in),
+      self::fixPath($out),
+      join(' ', $params)
+    );
 
     $this->stdout = $this->stderr = "";
 
@@ -75,5 +79,17 @@ class sfSassCompilerDriver
   public function getCommand()
   {
     return $this->command;
+  }
+
+  /**
+   * Attempt to support windows OS
+   * Sass on windows required paths to use '/' as a separator
+   *
+   * @param string $path A path
+   * @return string The path with the right separators
+   */
+  public static function fixPath($path)
+  {
+    return str_replace('\\', '/', $path);
   }
 }
