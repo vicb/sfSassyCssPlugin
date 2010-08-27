@@ -105,6 +105,10 @@ You can use `sass-convert` to help you convert less stylesheets to sass.
 
 ##Changelog ##
 
+### v0.1.1 - 2010-08-27 ###
+
+ * Fix for windows tested on win 7
+
 ### v0.1.0 - 2010-08-17 ###
 
  * Initial release
