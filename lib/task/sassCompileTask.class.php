@@ -61,8 +61,11 @@ EOF;
       $compiler->clean($in, $out);
     }
 
-    $params[] = '--no-cache';    
-    $params[] = sprintf('-E "%s"', sfConfig::get('app_sfSassyCssPlugin_encoding', "UTF-8"));
+    $params[] = '--no-cache';
+    if(sfConfig::get('app_sfSassyCssPlugin_encoding') !== null)
+    {
+      $params[] = sprintf('-E "%s"', sfConfig::get('app_sfSassyCssPlugin_encoding'));
+    }
 
     if ($options['format'] == 'scss')
     {

@@ -98,12 +98,17 @@ You should run the `sass:compile` task instead in order to re-generate your css 
 
   * sfSassyCssPlugin has been created by [Victor Berchet](http://github.com/vicb)
   * The inspiration and some parts of the code comes from [sfLESSPlugin](http://github.com/everzet/sfLESSPlugin) by [Kudryashov Konstantin](http://everzet.com)
+  * Added Ruby 1.9+ support [Lee Leathers] (https://github.com/theoreticaLee)
 
 ## Tips ##
 
 You can use `sass-convert` to help you convert less stylesheets to sass.
 
 ##Changelog ##
+
+### v0.1.2 - 2012-02-08 ###
+
+ * Fix to support Ruby 1.9+
 
 ### v0.1.1 - 2010-08-27 ###
 
