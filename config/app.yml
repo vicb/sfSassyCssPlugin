@@ -13,7 +13,7 @@ all:
     line_numbers:     false               # Emit comments in the generated CSS indicating the corresponding sass line.
     line_comments:    false
     toolbar:          false               # Wether to display the debug toolbar
-    encoding:         UTF-8               # Sass files default encoding
+    encoding:         null                # Sass files default encoding ( Only supported for legacy Ruby versions. If you are using Ruby 1.9 or later, Sass will implicitly set this. )
 
 dev:
   sfSassyCssPlugin:
